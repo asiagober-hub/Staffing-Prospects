@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Staffing Prospects</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #f4f6f8;
+    color: #1f2937;
+}
+
+header {
+    background: #18212f;
+    color: white;
+    padding: 20px;
+}
+
+header h1 {
+    margin: 0 0 5px;
+    font-size: 24px;
+}
+
+header p {
+    margin: 0;
+    color: #cbd5e1;
+}
+
+.container {
+    max-width: 1200px;
+    margin: auto;
+    padding: 20px;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat {
+    background: white;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.stat-label {
+    font-size: 13px;
+    color: #64748b;
+}
+
+.stat-number {
+    font-size: 28px;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+.panel {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.panel h2 {
+    margin-top: 0;
+}
+
+.toolbar {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+}
+
+input,
+select,
+textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+textarea {
+    min-height: 90px;
+    resize: vertical;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.form-group.full {
+    grid-column: 1 / -1;
+}
+
+label {
+    font-weight: 600;
+    font-size: 13px;
+}
+
+button {
+    border: 0;
+    border-radius: 8px;
+    padding: 11px 16px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.btn-primary {
+    background: #1f6f5b;
+    color: white;
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: #1e293b;
+}
+
+.btn-danger {
+    background: #dc2626;
+    color: white;
+}
+
+button:hover {
+    opacity: .9;
+}
+
+.prospect-card {
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 18px;
+    margin-bottom: 15px;
+}
+
+.prospect-header {
+    display: flex;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: flex-start;
+}
+
+.prospect-header h3 {
+    margin: 0 0 5px;
+}
+
+.badge {
+    display: inline-block;
+    padding: 5px 9px;
+    border-radius: 20px;
+    background: #e2e8f0;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.contact-card {
+    background: #f8fafc;
+    border-radius: 9px;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+.contact-card strong {
+    display: block;
+}
+
+.contact-actions {
+    margin-top: 8px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.small-btn {
+    padding: 7px 10px;
+    font-size: 12px;
+}
+
+.action-box {
+    background: #f1f5f9;
+    border-radius: 10px;
+    padding: 12px;
+    margin-top: 12px;
+}
+
+.action-box strong {
+    color: #1f6f5b;
+}
+
+.objection {
+    border: 1px solid #e2e8f0;
+    border-radius: 9px;
+    padding: 12px;
+    margin-bottom: 10px;
+}
+
+.objection strong {
+    display: block;
+    margin-bottom: 6px;
+}
+
+.email-template {
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.hidden {
+    display: none;
+}
+
+.empty {
+    text-align: center;
+    padding: 30px;
+    color: #64748b;
+}
+
+.modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,.55);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: white;
+    width: 100%;
+    max-width: 650px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border-radius: 14px;
+    padding: 20px;
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close {
+    background: transparent;
+    font-size: 24px;
+}
+
+.call-log {
+    border-left: 4px solid #1f6f5b;
+    padding: 10px 15px;
+    margin-bottom: 10px;
+    background: #f8fafc;
+}
+
+.followup {
+    background: #fff7ed;
+    border-radius: 9px;
+    padding: 12px;
+    margin-top: 10px;
+}
+
+@media (max-width: 800px) {
+    .dashboard {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .prospect-header {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 500px) {
+    .container {
+        padding: 12px;
+    }
+
+    .dashboard {
+        grid-template-columns: 1fr 1fr;
+        gap: 8px;
+    }
+
+    .stat {
+        padding: 12px;
+    }
+
+    .stat-number {
+        font-size: 22px;
+    }
+
+    .toolbar button {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <h1>Staffing Prospects</h1>
+    <p>Business prospecting and staffing sales command center</p>
+</header>
+
+<div class="container">
+
+    <div class="dashboard">
+        <div class="stat">
+            <div class="stat-label">Businesses</div>
+            <div class="stat-number" id="businessCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Contacts</div>
+            <div class="stat-number" id="contactCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Calls</div>
+            <div class="stat-number" id="callCount">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="stat-label">Follow-Ups</div>
+            <div class="stat-number" id="followupCount">0</div>
+        </div>
+    </div>
+
+    <div class="panel">
+        <div class="toolbar">
+            <button class="btn-primary" onclick="openProspectModal()">
+                + Add Business
+            </button>
+
+            <button class="btn-secondary" onclick="openObjectionModal()">
+                💬 Objection Prompts
+            </button>
+
+            <button class="btn-secondary" onclick="openEmailModal()">
+                ✉️ Email Templates
+            </button>
+        </div>
+
+        <input
+            id="searchInput"
+            placeholder="Search businesses, contacts, titles, industries..."
+            oninput="renderProspects()"
+        >
+    </div>
+
+    <div class="panel">
+        <h2>🏢 Staffing Prospects</h2>
+        <div id="prospectList"></div>
+    </div>
+
+</div>
+
+<!-- PROSPECT MODAL -->
+
+<div id="prospectModal" class="modal hidden">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2 id="prospectModalTitle">Add Business</h2>
+            <button class="close" onclick="closeModal('prospectModal')">×</button>
+        </div>
+
+        <input type="hidden" id="editingProspectId">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Business Name</label>
+                <input id="businessName" placeholder="ABC Manufacturing">
+            </div>
+
+            <div class="form-group">
+                <label>Industry</label>
+                <input id="industry" placeholder="Manufacturing">
+            </div>
+
+            <div class="form-group">
+                <label>Location</label>
+                <input id="location" placeholder="Atlanta, GA">
+            </div>
+
+            <div class="form-group">
+                <label>Open Positions</label>
+                <input id="positions" type="number" min="0" placeholder="10">
+            </div>
+
+            <div class="form-group">
+                <label>Days Positions Have Been Open</label>
+                <input id="daysOpen" type="number" min="0" placeholder="30">
+            </div>
+
+            <div class="form-group">
+                <label>Hiring Signal</label>
+                <select id="hiringSignal">
+                    <option value="High">High</option>
+                    <option value="Medium" selected>Medium</option>
+                    <option value="Low">Low</option>
+                </select>
+            </div>
+
+            <div class="form-group full">
+                <label>Account Intelligence</label>
+                <textarea id="accountNotes" placeholder="Hiring activity, staffing challenges, company information..."></textarea>
+            </div>
+
+        </div>
+
+        <hr>
+
+        <h3>Primary Contact</h3>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Name</label>
+                <input id="contactName" placeholder="Jane Smith">
+            </div>
+
+            <div class="form-group">
+                <label>Title</label>
+                <input id="contactTitle" placeholder="HR Director">
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input id="contactPhone" placeholder="(404) 555-1234">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input id="contactEmail" placeholder="jane@company.com">
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn-primary" onclick="saveProspect()">
+            Save Business
+        </button>
+
+        <button class="btn-secondary" onclick="closeModal('prospectModal')">
+            Cancel
+        </button>
+
+    </div>
+</div>
+
+<!-- CONTACT MODAL -->
+
+<div id="contactModal" class="modal hidden">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>Add Contact</h2>
+            <button class="close" onclick="closeModal('contactModal')">×</button>
+        </div>
+
+        <input type="hidden" id="contactBusinessId">
+        <input type="hidden" id="editingContactId">
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Name</label>
+                <input id="additionalContactName" placeholder="John Smith">
+            </div>
+
+            <div class="form-group">
+                <label>Title</label>
+                <input id="additionalContactTitle" placeholder="Hiring Manager">
+            </div>
+
+            <div class="form-group">
+                <label>Phone</label>
+                <input id="additionalContactPhone" placeholder="(404) 555-1234">
+            </div>
+
+            <div class="form-group">
+                <label>Email</label>
+                <input id="additionalContactEmail" placeholder="john@company.com">
+            </div>
+
+        </div>
+
+        <br>
+
+        <button class="btn-primary" onclick="saveAdditionalContact()">
+            Save Contact
+        </button>
+
+        <button class="btn-secondary" onclick="closeModal('contactModal')">
+            Cancel
+        </button>
+
+    </div>
+</div>
+
+<!-- CALL MODAL -->
+
+<div id="callModal" class="modal hidden">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>📞 Log Call</h2>
+            <button class="close" onclick="closeModal('callModal')">×</button>
+        </div>
+
+        <input type="hidden" id="callBusinessId">
+
+        <div class="form-group">
+            <label>Contact</label>
+            <select id="callContact"></select>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Outcome</label>
+            <select id="callOutcome">
+                <option>Connected</option>
+                <option>No Answer</option>
+                <option>Voicemail</option>
+                <option>Meeting Booked</option>
+                <option>Follow-Up Needed</option>
+                <option>Not Interested</option>
+            </select>
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Call Notes</label>
+            <textarea id="callNotes" placeholder="What happened during the call?"></textarea>
+        </div>
+
+        <br>
+
+        <button class="btn-primary" onclick="saveCall()">
+            Save Call
+        </button>
+
+    </div>
+</div>
+
+<!-- OBJECTION MODAL -->
+
+<div id="objectionModal" class="modal hidden">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>💬 Objection Prompts</h2>
+            <button class="close" onclick="closeModal('objectionModal')">×</button>
+        </div>
+
+        <div id="objectionList"></div>
+
+        <hr>
+
+        <h3>Add Custom Objection</h3>
+
+        <div class="form-group">
+            <label>Customer Objection</label>
+            <input id="customObjection" placeholder="We already have a staffing agency.">
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Your Suggested Response</label>
+            <textarea id="customResponse" placeholder="Enter the response you want to use..."></textarea>
+        </div>
+
+        <br>
+
+        <button class="btn-primary" onclick="saveCustomObjection()">
+            Add Custom Objection
+        </button>
+
+    </div>
+</div>
+
+<!-- EMAIL MODAL -->
+
+<div id="emailModal" class="modal hidden">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h2>✉️ Email Templates</h2>
+            <button class="close" onclick="closeModal('emailModal')">×</button>
+        </div>
+
+        <div id="emailTemplateList"></div>
+
+        <hr>
+
+        <h3>Create/Edit Template</h3>
+
+        <div class="form-group">
+            <label>Template Name</label>
+            <input id="templateName" placeholder="Initial Staffing Outreach">
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Subject</label>
+            <input id="templateSubject" placeholder="Staffing support for your hiring needs">
+        </div>
+
+        <br>
+
+        <div class="form-group">
+            <label>Email Body</label>
+            <textarea id="templateBody" style="min-height:180px;"></textarea>
+        </div>
+
+        <br>
+
+        <button class="btn-primary" onclick="saveEmailTemplate()">
+            Save Template
+        </button>
+
+    </div>
+</div>
+
+<script>
+
+let prospects = JSON.parse(localStorage.getItem("staffingProspects")) || [];
+
+let objections = JSON.parse(localStorage.getItem("staffingObjections")) || [
+    {
+        objection: "We already have a staffing agency.",
+        response: "That makes sense. Many companies we work with already have staffing partners. I would love to learn what is working well and where you may still have hiring gaps."
+    },
+    {
+        objection: "We don't need staffing right now.",
+        response: "I understand. Would it make sense for me to learn what positions you typically struggle to fill so I can be a resource when hiring needs come up?"
+    },
+    {
+        objection: "We don't have the budget.",
+        response: "I understand. If hiring delays are affecting operations or productivity, would you be open to discussing what those costs look like and whether staffing could help?"
+    },
+    {
+        objection: "Send me an email.",
+        response: "Absolutely. I can send something over. So I make it relevant, what types of positions are you currently hiring for or expecting to hire for?"
+    },
+    {
+        objection: "I'm too busy.",
+        response: "I completely understand. Let me keep it brief. What is the biggest hiring challenge you're dealing with right now?"
+    },
+    {
+        objection: "We hire internally.",
+        response: "That makes sense. Do you ever use outside support when internal recruiting can't fill a position quickly enough?"
+    },
+    {
+        objection: "We're not hiring.",
+        response: "Understood. Are there certain positions you typically have difficulty filling when hiring picks back up?"
+    },
+    {
+        objection: "Your rates are too high.",
+        response: "I understand cost is important. Besides price, what would you need from a staffing partner to make the relationship worthwhile?"
+    }
+];
+
+let emailTemplates = JSON.parse(localStorage.getItem("staffingEmailTemplates")) || [
+    {
+        name: "Initial Staffing Outreach",
+        subject: "Staffing support for your hiring needs",
+        body: "Hi {{contact}},\n\nI wanted to reach out regarding your hiring needs at {{company}}.\n\nI'd love to learn more about the positions you're currently working to fill and see whether our staffing team could help.\n\nWould you be open to a quick conversation?\n\nBest,\nAsia"
+    },
+    {
+        name: "Follow-Up",
+        subject: "Following up on staffing support",
+        body: "Hi {{contact}},\n\nI wanted to follow up regarding your hiring needs at {{company}}.\n\nIf you are still working to fill positions, I'd be happy to discuss how our staffing resources may be able to help.\n\nBest,\nAsia"
+    }
+];
+
+function saveData() {
+    localStorage.setItem("staffingProspects", JSON.stringify(prospects));
+    localStorage.setItem("staffingObjections", JSON.stringify(objections));
+    localStorage.setItem("staffingEmailTemplates", JSON.stringify(emailTemplates));
+}
+
+function closeModal(id) {
+    document.getElementById(id).classList.add("hidden");
+}
+
+function openProspectModal() {
+    clearProspectForm();
+    document.getElementById("prospectModalTitle").textContent = "Add Business";
+    document.getElementById("prospectModal").classList.remove("hidden");
+}
+
+function clearProspectForm() {
+    document.getElementById("editingProspectId").value = "";
+    document.getElementById("businessName").value = "";
+    document.getElementById("industry").value = "";
+    document.getElementById("location").value = "";
+    document.getElementById("positions").value = "";
+    document.getElementById("daysOpen").value = "";
+    document.getElementById("hiringSignal").value = "Medium";
+    document.getElementById("accountNotes").value = "";
+    document.getElementById("contactName").value = "";
+    document.getElementById("contactTitle").value = "";
+    document.getElementById("contactPhone").value = "";
+    document.getElementById("contactEmail").value = "";
+}
+
+function saveProspect() {
+
+    const editingId = document.getElementById("editingProspectId").value;
+
+    const business = {
+        id: editingId ? Number(editingId) : Date.now(),
+
+        company: document.getElementById("businessName").value.trim(),
+
+        industry: document.getElementById("industry").value.trim(),
+
+        location: document.getElementById("location").value.trim(),
+
+        positions: parseInt(document.getElementById("positions").value) || 0,
+
+        daysOpen: parseInt(document.getElementById("daysOpen").value) || 0,
+
+        hiringSignal: document.getElementById("hiringSignal").value,
+
+        notes: document.getElementById("accountNotes").value.trim(),
+
+        contacts: [],
+
+        calls: [],
+
+        followups: []
+    };
+
+    if (!business.company) {
+        alert("Please enter a business name.");
+        return;
+    }
+
+    const existing = editingId
+        ? prospects.find(p => p.id === Number(editingId))
+        : null;
+
+    if (existing) {
+        business.contacts = existing.contacts || [];
+        business.calls = existing.calls || [];
+        business.followups = existing.followups || [];
+
+        const primaryName = document.getElementById("contactName").value.trim();
+
+        if (primaryName) {
+            if (business.contacts.length > 0) {
+                business.contacts[0] = {
+                    ...business.contacts[0],
+                    name: primaryName,
+                    title: document.getElementById("contactTitle").value.trim(),
+                    phone: document.getElementById("contactPhone").value.trim(),
+                    email: document.getElementById("contactEmail").value.trim()
+                };
+            } else {
+                business.contacts.push({
+                    id: Date.now(),
+                    name: primaryName,
+                    title: document.getElementById("contactTitle").value.trim(),
+                    phone: document.getElementById("contactPhone").value.trim(),
+                    email: document.getElementById("contactEmail").value.trim()
+                });
+            }
+        }
+
+        const index = prospects.findIndex(p => p.id === business.id);
+        prospects[index] = business;
+
+    } else {
+
+        const primaryName = document.getElementById("contactName").value.trim();
+
+        if (primaryName) {
+            business.contacts.push({
+                id: Date.now(),
+                name: primaryName,
+                title: document.getElementById("contactTitle").value.trim(),
+                phone: document.getElementById("contactPhone").value.trim(),
+                email: document.getElementById("contactEmail").value.trim()
+            });
+        }
+
+        prospects.push(business);
+    }
+
+    saveData();
+    closeModal("prospectModal");
+    renderProspects();
+}
+
+function editProspect(id) {
+
+    const p = prospects.find(item => item.id === id);
+
+    if (!p) return;
+
+    document.getElementById("editingProspectId").value = p.id;
+    document.getElementById("businessName").value = p.company || "";
+    document.getElementById("industry").value = p.industry || "";
+    document.getElementById("location").value = p.location || "";
+    document.getElementById("positions").value = p.positions || 0;
+    document.getElementById("daysOpen").value = p.daysOpen || 0;
+    document.getElementById("hiringSignal").value = p.hiringSignal || "Medium";
+    document.getElementById("accountNotes").value = p.notes || "";
+
+    const contact = p.contacts?.[0];
+
+    document.getElementById("contactName").value = contact?.name || "";
+    document.getElementById("contactTitle").value = contact?.title || "";
+    document.getElementById("contactPhone").value = contact?.phone || "";
+    document.getElementById("contactEmail").value = contact?.email || "";
+
+    document.getElementById("prospectModalTitle").textContent = "Edit Business";
+
+    document.getElementById("prospectModal").classList.remove("hidden");
+}
+
+function deleteProspect(id) {
+
+    if (!confirm("Delete this business and its information?")) return;
+
+    prospects = prospects.filter(p => p.id !== id);
+
+    saveData();
+    renderProspects();
+}
+
+function openContactModal(businessId) {
+
+    document.getElementById("contactBusinessId").value = businessId;
+    document.getElementById("editingContactId").value = "";
+
+    document.getElementById("additionalContactName").value = "";
+    document.getElementById("additionalContactTitle").value = "";
+    document.getElementById("additionalContactPhone").value = "";
+    document.getElementById("additionalContactEmail").value = "";
+
+    document.getElementById("contactModal").classList.remove("hidden");
+}
+
+function saveAdditionalContact() {
+
+    const businessId = Number(document.getElementById("contactBusinessId").value);
+
+    const p = prospects.find(item => item.id === businessId);
+
+    if (!p) return;
+
+    const name = document.getElementById("additionalContactName").value.trim();
+
+    if (!name) {
+        alert("Please enter a contact name.");
+        return;
+    }
+
+    if (!p.contacts) {
+        p.contacts = [];
+    }
+
+    p.contacts.push({
+        id: Date.now(),
+        name: name,
+        title: document.getElementById("additionalContactTitle").value.trim(),
+        phone: document.getElementById("additionalContactPhone").value.trim(),
+        email: document.getElementById("additionalContactEmail").value.trim()
+    });
+
+    saveData();
+
+    closeModal("contactModal");
+
+    renderProspects();
+}
+
+function editContact(businessId, contactId) {
+
+    const p = prospects.find(item => item.id === businessId);
+
+    if (!p) return;
+
+    const contact = p.contacts.find(c => c.id === contactId);
+
+    if (!contact) return;
+
+    document.getElementById("contactBusinessId").value = businessId;
+    document.getElementById("editingContactId").value = contactId;
+
+    document.getElementById("additionalContactName").value = contact.name || "";
+    document.getElementById("additionalContactTitle").value = contact.title || "";
+    document.getElementById("additionalContactPhone").value = contact.phone || "";
+    document.getElementById("additionalContactEmail").value = contact.email || "";
+
+    document.querySelector("#contactModal h2").textContent = "Edit Contact";
+
+    document.getElementById("contactModal").classList.remove("hidden");
+}
+
+function deleteContact(businessId, contactId) {
+
+    const p = prospects.find(item => item.id === businessId);
+
+    if (!p) return;
+
+    p.contacts = p.contacts.filter(c => c.id !== contactId);
+
+    saveData();
+    renderProspects();
+}
+
+function openCallModal(businessId) {
+
+    const p = prospects.find(item => item.id === businessId);
+
+    if (!p) return;
+
+    document.getElementById("callBusinessId").value = businessId;
+
+    const select = document.getElementById("callContact");
+
+    select.innerHTML = "";
+
+    (p.contacts || []).forEach(contact => {
+
+        const option = document.createElement("option");
+
+        option.value = contact.id;
+
+        option.textContent = contact.name || "Unnamed Contact";
+
+        select.appendChild(option);
+    });
+
+    if (!p.contacts?.length) {
+        const option = document.createElement("option");
+        option.textContent = "No contacts added";
+        select.appendChild(option);
+    }
+
+    document.getElementById("callNotes").value = "";
+
+    document.getElementById("callModal").classList.remove("hidden");
+}
+
+function saveCall() {
+
+    const businessId = Number(document.getElementById("callBusinessId").value);
+
+    const p = prospects.find(item => item.id === businessId);
+
+    if (!p) return;
+
+    if (!p.calls) p.calls = [];
+
+    p.calls.push({
+        id: Date.now(),
+        date: new Date().toLocaleString(),
+        contactId: Number(document.getElementById("callContact").value),
+        outcome: document.getElementById("callOutcome").value,
+        notes: document.getElementById("callNotes").value.trim()
+    });
+
+    saveData();
+
+    closeModal("callModal");
+
+    renderProspects();
+}
+
+function nextBestAction(p) {
+
+    if (!p.contacts || p.contacts.length === 0) {
+        return "Add a decision-maker contact.";
+    }
+
+    if (!p.calls || p.calls.length === 0) {
+        return "Make your first prospecting call.";
+    }
+
+    const lastCall = p.calls[p.calls.length - 1];
+
+    if (lastCall.outcome === "Meeting Booked") {
+        return "Prepare for the scheduled meeting.";
+    }
+
+    if (lastCall.outcome === "Follow-Up Needed") {
+        return "Complete the requested follow-up.";
+    }
+
+    if (p.positions > 0 && p.daysOpen >= 30) {
+        return "Follow up on the long-open positions.";
+    }
+
+    if (lastCall.outcome === "No Answer" || lastCall.outcome === "Voicemail") {
+        return "Try another call or send a follow-up email.";
+    }
+
+    return "Continue prospecting and identify the next decision-maker.";
+}
+
+function renderProspects() {
+
+    const list = document.getElementById("prospectList");
+
+    const search = document.getElementById("searchInput").value.toLowerCase().trim();
+
+    const filtered = prospects.filter(p => {
+
+        const contactText = (p.contacts || [])
+            .map(c => `${c.name} ${c.title} ${c.phone} ${c.email}`)
+            .join(" ");
+
+        return `${p.company} ${p.industry} ${p.location} ${contactText}`
+            .toLowerCase()
+            .includes(search);
+    });
+
+    if (filtered.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty">
+                No staffing prospects found.<br><br>
+                Click <strong>+ Add Business</strong> to create your first prospect.
+            </div>
+        `;
+
+        updateStats();
+        return;
+    }
+
+    list.innerHTML = filtered.map(p => {
+
+        const contacts = p.contacts || [];
+
+        return `
+            <div class="prospect-card">
+
+                <div class="prospect-header">
+
+                    <div>
+                        <h3>${escapeHTML(p.company)}</h3>
+
+                        <div>
+                            ${escapeHTML(p.industry || "Industry not entered")}
+                            ${p.location ? " • " + escapeHTML(p.location) : ""}
+                        </div>
+                    </div>
+
+                    <span class="badge">
+                        ${escapeHTML(p.hiringSignal || "Medium")} Hiring Signal
+                    </span>
+
+                </div>
+
+                <br>
+
+                <strong>Hiring Need:</strong>
+                ${p.positions || 0} open position(s)
+                ${p.daysOpen ? ` • ${p.daysOpen} days open` : ""}
+
+                <div class="action-box">
+                    <strong>🧠 Next Best Action:</strong>
+                    ${escapeHTML(nextBestAction(p))}
+                </div>
+
+                <br>
+
+                <strong>👥 Contacts</strong>
+
+                ${
+                    contacts.length
+                    ? contacts.map(contact => `
+                        <div class="contact-card">
+
+                            <strong>${escapeHTML(contact.name || "Unnamed Contact")}</strong>
+
+                            ${contact.title ? escapeHTML(contact.title) : ""}
+
+                            ${contact.phone ? `<div>📞 ${escapeHTML(contact.phone)}</div>` : ""}
+
+                            ${contact.email ? `<div>✉️ ${escapeHTML(contact.email)}</div>` : ""}
+
+                            <div class="contact-actions">
+
+                                <button
+                                    class="btn-secondary small-btn"
+                                    onclick="editContact(${p.id}, ${contact.id})">
+                                    Edit
+                                </button>
+
+                                <button
+                                    class="btn-danger small-btn"
+                                    onclick="deleteContact(${p.id}, ${contact.id})">
+                                    Delete
+                                </button>
+
+                            </div>
+
+                        </div>
+                    `).join("")
+                    : `<p>No contacts added yet.</p>`
+                }
+
+                <br>
+
+                <div class="toolbar">
+
+                    <button
+                        class="btn-primary"
+                        onclick="openContactModal(${p.id})">
+                        + Add Contact
+                    </button>
+
+                    <button
+                        class="btn-secondary"
+                        onclick="openCallModal(${p.id})">
+                        📞 Log Call
+                    </button>
+
+                    <button
+                        class="btn-secondary"
+                        onclick="editProspect(${p.id})">
+                        Edit Business
+                    </button>
+
+                    <button
+                        class="btn-danger"
+                        onclick="deleteProspect(${p.id})">
+                        Delete
+                    </button>
+
+                </div>
+
+                ${
+                    p.notes
+                    ? `
+                        <div class="action-box">
+                            <strong>📝 Account Intelligence</strong>
+                            <p>${escapeHTML(p.notes)}</p>
+                        </div>
+                    `
+                    : ""
+                }
+
+                ${
+                    p.calls?.length
+                    ? `
+                        <div class="action-box">
+                            <strong>📞 Recent Call History</strong>
+
+                            <br><br>
+
+                            ${p.calls.slice().reverse().slice(0, 5).map(call => `
+                                <div class="call-log">
+                                    <strong>${escapeHTML(call.outcome)}</strong>
+                                    <div>${escapeHTML(call.date)}</div>
+                                    ${call.notes ? `<div>${escapeHTML(call.notes)}</div>` : ""}
+                                </div>
+                            `).join("")}
+
+                        </div>
+                    `
+                    : ""
+                }
+
+            </div>
+        `;
+
+    }).join("");
+
+    updateStats();
+}
+
+function updateStats() {
+
+    const contacts = prospects.reduce(
+        (total, p) => total + (p.contacts?.length || 0),
+        0
+    );
+
+    const calls = prospects.reduce(
+        (total, p) => total + (p.calls?.length || 0),
+        0
+    );
+
+    const followups = prospects.reduce(
+        (total, p) => total + (p.followups?.length || 0),
+        0
+    );
+
+    document.getElementById("businessCount").textContent = prospects.length;
+    document.getElementById("contactCount").textContent = contacts;
+    document.getElementById("callCount").textContent = calls;
+    document.getElementById("followupCount").textContent = followups;
+}
+
+function openObjectionModal() {
+
+    renderObjections();
+
+    document.getElementById("objectionModal").classList.remove("hidden");
+}
+
+function renderObjections() {
+
+    document.getElementById("objectionList").innerHTML = objections.map((item, index) => `
+        <div class="objection">
+
+            <strong>Customer says:</strong>
+            "${escapeHTML(item.objection)}"
+
+            <br><br>
+
+            <strong>Suggested response:</strong>
+            ${escapeHTML(item.response)}
+
+            ${
+                index >= 8
+                ? `
+                    <br><br>
+                    <button
+                        class="btn-danger small-btn"
+                        onclick="deleteObjection(${index})">
+                        Delete
+                    </button>
+                `
+                : ""
+            }
+
+        </div>
+    `).join("");
+}
+
+function saveCustomObjection() {
+
+    const objection = document.getElementById("customObjection").value.trim();
+
+    const response = document.getElementById("customResponse").value.trim();
+
+    if (!objection || !response) {
+        alert("Enter both the objection and your response.");
+        return;
+    }
+
+    objections.push({
+        objection: objection,
+        response: response
+    });
+
+    saveData();
+
+    document.getElementById("customObjection").value = "";
+    document.getElementById("customResponse").value = "";
+
+    renderObjections();
+}
+
+function deleteObjection(index) {
+
+    if (!confirm("Delete this custom objection?")) return;
+
+    objections.splice(index, 1);
+
+    saveData();
+
+    renderObjections();
+}
+
+function openEmailModal() {
+
+    renderEmailTemplates();
+
+    document.getElementById("emailModal").classList.remove("hidden");
+}
+
+function renderEmailTemplates() {
+
+    document.getElementById("emailTemplateList").innerHTML =
+        emailTemplates.map((template, index) => `
+            <div class="email-template">
+
+                <strong>${escapeHTML(template.name)}</strong>
+
+                <p>
+                    <strong>Subject:</strong>
+                    ${escapeHTML(template.subject)}
+                </p>
+
+                <textarea
+                    id="emailBody${index}"
+                    style="min-height:140px;"
+                    onchange="updateEmailTemplate(${index}, this.value)"
+                >${escapeHTML(template.body)}</textarea>
+
+                <br><br>
+
+                <button
+                    class="btn-danger small-btn"
+                    onclick="deleteEmailTemplate(${index})">
+                    Delete Template
+                </button>
+
+            </div>
+        `).join("");
+}
+
+function saveEmailTemplate() {
+
+    const name = document.getElementById("templateName").value.trim();
+
+    const subject = document.getElementById("templateSubject").value.trim();
+
+    const body = document.getElementById("templateBody").value.trim();
+
+    if (!name || !subject || !body) {
+        alert("Complete all template fields.");
+        return;
+    }
+
+    emailTemplates.push({
+        name: name,
+        subject: subject,
+        body: body
+    });
+
+    saveData();
+
+    document.getElementById("templateName").value = "";
+    document.getElementById("templateSubject").value = "";
+    document.getElementById("templateBody").value = "";
+
+    renderEmailTemplates();
+}
+
+function updateEmailTemplate(index, value) {
+
+    emailTemplates[index].body = value;
+
+    saveData();
+}
+
+function deleteEmailTemplate(index) {
+
+    if (!confirm("Delete this email template?")) return;
+
+    emailTemplates.splice(index, 1);
+
+    saveData();
+
+    renderEmailTemplates();
+}
+
+function escapeHTML(value) {
+
+    return String(value ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+document.addEventListener("click", function(event) {
+
+    if (event.target.classList.contains("modal")) {
+        event.target.classList.add("hidden");
+    }
+
+});
+
+renderProspects();
+
+</script>
+
+</body>
+</html>
